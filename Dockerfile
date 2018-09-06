@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM r-base:3.4.3
 
 LABEL maintainer="bernd.steinert@itconcepts.net"
 
@@ -6,18 +6,23 @@ LABEL maintainer="bernd.steinert@itconcepts.net"
 RUN groupadd -g 115 -r ci &&\
     useradd -u 109 -r -g ci bookdown &&\
     mkdir /home/bookdown &&\
-    echo "umask 000" > /home/bookdown/.bashrc
+    echo "umask 000" > /home/bookdown/.bashrc &&\
+    chown -R bookdown:ci /home/bookdown
 
 RUN mkdir -p /project &&\
     chown -R bookdown:ci /project
 
 # install R and pandoc
-RUN apt-get update &&\
-    apt-get install -y --no-install-recommends \
-        pandoc \
-        r-base-dev &&\
+RUN apt-get update \
+  && apt-get install -y \
+    pandoc \
+    texlive \
+    texlive-latex-extra \
+    texinfo \
+    imagemagick \
+  && rm -rf /var/lib/apt/lists/*
 
-    R -e "install.packages('bookdown', repo='https://cran.rstudio.com')"
+RUN Rscript -e 'install.packages("bookdown")'
 
 USER bookdown
 VOLUME /project
