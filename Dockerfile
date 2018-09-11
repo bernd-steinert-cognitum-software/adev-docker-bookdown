@@ -18,6 +18,7 @@ RUN apt-get update \
     pandoc \
     texlive \
     texlive-latex-extra \
+    texlive-lang-german \
     texinfo \
     imagemagick \
   && rm -rf /var/lib/apt/lists/*
@@ -27,6 +28,3 @@ RUN Rscript -e 'install.packages("bookdown")'
 USER bookdown
 VOLUME /project
 WORKDIR /project
-
-# ENTRYPOINT ["R", "-e"]
-# CMD ["bookdown::render_book('index.Rmd')"]
