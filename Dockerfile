@@ -1,6 +1,6 @@
-FROM r-base:3.4.3
+FROM r-base:3.6.1
 
-LABEL maintainer="bernd.steinert@itconcepts.net"
+LABEL maintainer="bernd.steinert@cognitum-software.com"
 
 # create user/group with loose file permissions (to allow file deletes on docker host, e.g. jenkins)
 RUN groupadd -g 115 -r ci &&\
